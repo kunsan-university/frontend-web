@@ -1,10 +1,11 @@
 import React from 'react';
+import Button from '../lib/Button';
 
 const Foot = ({ prevPage, nextPage }) => {
   return (
     <div>
-      <button onClick={prevPage}>이전</button>
-      <button onClick={nextPage}>다음</button>
+      <Button onClick={prevPage}>이전</Button>
+      <Button onClick={nextPage}>다음</Button>
     </div>
   );
 };
