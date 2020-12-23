@@ -1,8 +1,12 @@
 import { useCallback, useEffect, useState } from 'react';
-import List from './List';
-import Head from './Head';
-import Foot from './Foot';
+import styled from 'styled-components';
+import Header from './Header';
+import Footer from './Footer';
+import Table from './Table';
 
+const Template = styled.div``;
+
+///////////////////////////////////////////////////////
 const dumy = Array(30)
   .fill()
   .map((e, i) => ({
@@ -12,28 +16,35 @@ const dumy = Array(30)
     address: '군산대학교',
     position: '학생',
   }));
+///////////////////////////////////////////////////////
 
 const index = () => {
   const [list, setList] = useState([]);
+  const [limit, setLimit] = useState(10);
   const [offset, setOffset] = useState(0);
+  const [searchTxt, setSearchTxt] = useState('');
+
+  ///////////////////////////////////////////////////////
   useEffect(() => {
     setList(dumy);
   }, []);
+  ///////////////////////////////////////////////////////
 
-  const nextPage = useCallback((e) => {
-    setOffset((pre) => pre + 10);
+  const nextPage = useCallback(() => {
+    setOffset((pre) => pre + limit);
   });
-  const prevPage = useCallback((e) => {
-    setOffset((pre) => pre - 10);
+  const prevPage = useCallback(() => {
+    setOffset((pre) => pre - limit);
+  });
+  const changeLimit = useCallback((num) => {
+    setLimit(num);
   });
   return (
-    <>
-      <table>
-        <Head title={list[0] && Object.keys(list[0])} />
-        <List list={list.slice(offset, offset + 10)} />
-      </table>
-      <Foot prevPage={prevPage} nextPage={nextPage} />
-    </>
+    <Template>
+      <Header />
+      <Table list={list.slice(offset, offset + limit)} />
+      <Footer />
+    </Template>
   );
 };
 
