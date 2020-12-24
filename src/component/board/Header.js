@@ -13,10 +13,6 @@ const Template = styled.div`
 
 const Search = styled.div``;
 
-const Limit = styled.div`
-  display: inline-block;
-`;
-
 const Select = styled.select`
   height: 36px;
   padding: 6px 12px;
@@ -24,22 +20,22 @@ const Select = styled.select`
   color: #2b2f33;
   border: #dfe8f1 solid 1px;
   box-shadow: inset 1px 1px 3px #f6f6f6;
+  margin-right: 10px;
 `;
-const Headers = () => {
+const Headers = ({ onChangeInput }) => {
   return (
     <Template>
       <Search>
-        <Input />
-        <Button>Search</Button>
-      </Search>
-      <Limit>
         <Select name="">
           <option value="">10</option>
           <option value="">25</option>
           <option value="">50</option>
           <option value="">100</option>
         </Select>
-      </Limit>
+        <Input onChange={(e) => onChangeInput(e.target.value)} />
+        <Button color={'pink'}>Search</Button>
+      </Search>
+      <Button>등록</Button>
     </Template>
   );
 };

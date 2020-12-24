@@ -6,29 +6,11 @@ import Table from './Table';
 
 const Template = styled.div``;
 
-///////////////////////////////////////////////////////
-const dumy = Array(30)
-  .fill()
-  .map((e, i) => ({
-    id: i + 1,
-    name: Math.random().toString(36).substr(2, 11),
-    phone: '010-0000-0000',
-    address: '군산대학교',
-    position: '학생',
-  }));
-///////////////////////////////////////////////////////
-
-const index = () => {
+const index = ({ onChangeInput, users, loadingUsers }) => {
   const [list, setList] = useState([]);
-  const [limit, setLimit] = useState(10);
+  const [limit, setLimit] = useState(5);
   const [offset, setOffset] = useState(0);
   const [searchTxt, setSearchTxt] = useState('');
-
-  ///////////////////////////////////////////////////////
-  useEffect(() => {
-    setList(dumy);
-  }, []);
-  ///////////////////////////////////////////////////////
 
   const nextPage = useCallback(() => {
     setOffset((pre) => pre + limit);
@@ -41,9 +23,14 @@ const index = () => {
   });
   return (
     <Template>
-      <Header />
-      <Table list={list.slice(offset, offset + limit)} />
-      <Footer />
+      {loadingUsers && '로딩 중'}
+      {!loadingUsers && users && (
+        <div>
+          <Header onChangeInput={onChangeInput} />
+          <Table list={users.slice(offset, offset + limit)} />
+          <Footer />
+        </div>
+      )}
     </Template>
   );
 };

@@ -1,5 +1,5 @@
 import { ThemeProvider } from 'styled-components';
-import Board from './component/board';
+import BoardContainer from './containers/BoardContainer';
 import Panel from './component/lib/Panel';
 
 function App() {
@@ -15,7 +15,7 @@ function App() {
         }}
       >
         <Panel>
-          <Board />
+          <BoardContainer />
         </Panel>
       </ThemeProvider>
     </>

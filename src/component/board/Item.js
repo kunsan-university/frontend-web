@@ -1,8 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
-
+import { AiFillDelete } from 'react-icons/ai';
 const Tr = styled.tr`
   justify-content: space-between;
+  &:last-child() {
+    text-align: center;
+  }
 `;
 
 const Td = styled.td`
@@ -11,15 +14,17 @@ const Td = styled.td`
 `;
 
 const item = ({ val }) => {
-  const { id, name, phone, address, position } = val;
+  const { id, name, username, email } = val;
 
   return (
     <Tr>
       <Td>{id}</Td>
       <Td>{name}</Td>
-      <Td>{phone}</Td>
-      <Td>{address}</Td>
-      <Td>{position}</Td>
+      <Td>{username}</Td>
+      <Td>{email}</Td>
+      <Td>
+        <AiFillDelete />
+      </Td>
     </Tr>
   );
 };

@@ -18,7 +18,7 @@ const InputStyle = styled.input`
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 `;
 
-const Input = ({ children, ...rest }) => {
+const Input = ({ children, onChangeInput, ...rest }) => {
   return <InputStyle {...rest}>{children}</InputStyle>;
 };
 

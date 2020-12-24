@@ -27,7 +27,7 @@ const TableStyle = styled.table`
 const Table = ({ list }) => {
   return (
     <TableStyle>
-      <thead>
+      {/* <thead>
         <tr>
           <th>순번</th>
           <th>이름</th>
@@ -35,10 +35,14 @@ const Table = ({ list }) => {
           <th>주소</th>
           <th>직위</th>
         </tr>
-      </thead>
+      </thead> */}
       <List list={list} />
     </TableStyle>
   );
+};
+
+Table.defaultProps = {
+  list: [],
 };
 
 export default Table;
