@@ -6,11 +6,11 @@ import Reduxthunk from 'redux-thunk';
 import { Reset } from 'styled-reset';
 import App from './App';
 import rootReducer from './modules';
+import { composeWithDevTools } from 'redux-devtools-extension';
 
 const store = createStore(
   rootReducer,
-  //window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
-  applyMiddleware(Reduxthunk),
+  composeWithDevTools(applyMiddleware(Reduxthunk)),
 );
 
 ReactDOM.render(

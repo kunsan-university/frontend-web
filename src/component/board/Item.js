@@ -1,11 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
 import { AiFillDelete } from 'react-icons/ai';
+import { useDispatch } from 'react-redux';
+import { showDialog } from '../../modules/dialog';
+
 const Tr = styled.tr`
   justify-content: space-between;
-  &:last-child() {
-    text-align: center;
-  }
+  text-align: center;
 `;
 
 const Td = styled.td`
@@ -13,7 +14,16 @@ const Td = styled.td`
   border: 1px solid #dfe8f1;
 `;
 
+const StyledAiFillDelete = styled(AiFillDelete)`
+  font-size: 1.5rem;
+  cursor: pointer;
+  &:hover {
+    fill: red;
+  }
+`;
+
 const item = ({ val }) => {
+  const dispatch = useDispatch();
   const { id, name, username, email } = val;
 
   return (
@@ -23,7 +33,7 @@ const item = ({ val }) => {
       <Td>{username}</Td>
       <Td>{email}</Td>
       <Td>
-        <AiFillDelete />
+        <StyledAiFillDelete onClick={() => dispatch(showDialog())} />
       </Td>
     </Tr>
   );

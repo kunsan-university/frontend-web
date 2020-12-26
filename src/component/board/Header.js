@@ -3,6 +3,8 @@ import styled from 'styled-components';
 
 import Button from '../lib/Button';
 import Input from '../lib/Input';
+import { useDispatch } from 'react-redux';
+import { showDialog2 } from '../../modules/dialog';
 
 const Template = styled.div`
   display: flex;
@@ -23,6 +25,7 @@ const Select = styled.select`
   margin-right: 10px;
 `;
 const Headers = ({ onChangeInput }) => {
+  const dispatch = useDispatch();
   return (
     <Template>
       <Search>
@@ -35,7 +38,7 @@ const Headers = ({ onChangeInput }) => {
         <Input onChange={(e) => onChangeInput(e.target.value)} />
         <Button color={'pink'}>Search</Button>
       </Search>
-      <Button>등록</Button>
+      <Button onClick={() => dispatch(showDialog2())}>등록</Button>
     </Template>
   );
 };
