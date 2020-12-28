@@ -24,6 +24,7 @@ const StyledAiFillDelete = styled(AiFillDelete)`
 
 const item = ({ val }) => {
   const dispatch = useDispatch();
+  console.log(val);
   const { id, name, username, email } = val;
 
   return (
