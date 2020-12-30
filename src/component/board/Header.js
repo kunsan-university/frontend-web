@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
 import Button from '../lib/Button';
 import Input from '../lib/Input';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { showDialog2 } from '../../modules/dialog';
+import { changeOffset, readBoards } from '../../modules/board';
 
 const Template = styled.div`
   display: flex;
@@ -24,23 +25,53 @@ const Select = styled.select`
   box-shadow: inset 1px 1px 3px #f6f6f6;
   margin-right: 10px;
 `;
-const Headers = ({ onChangeInput }) => {
+const Headers = ({ onChangeInput, onChangeCount }) => {
   const dispatch = useDispatch();
+  const count = useSelector((state) => state.board.count);
+  const search = useSelector((state) => state.board.search);
+  const handleChange = (e) => {
+    dispatch(onChangeCount(e.target.value));
+    dispatch(
+      readBoards({
+        firstIndex: 0,
+      }),
+    );
+    dispatch(changeOffset(0));
+  };
+
+  const handleSearch = (e) => {
+    dispatch(
+      readBoards({
+        searchWrd: search,
+        firstIndex: 0,
+      }),
+    );
+    dispatch(changeOffset(0));
+  };
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      handleSearch();
+    }
+  };
+
   return (
     <Template>
       <Search>
-        <Select name="">
-          <option value="">10</option>
-          <option value="">25</option>
-          <option value="">50</option>
-          <option value="">100</option>
+        <Select value={count} name="" onChange={handleChange}>
+          <option value="5">5</option>
+          <option value="10">10</option>
         </Select>
-        <Input onChange={(e) => onChangeInput(e.target.value)} />
-        <Button color={'pink'}>Search</Button>
+        <Input
+          onChange={(e) => onChangeInput(e.target.value)}
+          onKeyPress={handleKeyPress}
+        />
+        <Button color={'pink'} onClick={handleSearch}>
+          Search
+        </Button>
       </Search>
       <Button onClick={() => dispatch(showDialog2())}>등록</Button>
     </Template>
   );
 };
 
-export default Headers;
+export default React.memo(Headers);

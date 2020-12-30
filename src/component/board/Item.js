@@ -24,15 +24,13 @@ const StyledAiFillDelete = styled(AiFillDelete)`
 
 const item = ({ val }) => {
   const dispatch = useDispatch();
-  console.log(val);
-  const { id, name, username, email } = val;
+  const { nttId, nttSj, frstRegisterNm } = val;
 
   return (
     <Tr>
-      <Td>{id}</Td>
-      <Td>{name}</Td>
-      <Td>{username}</Td>
-      <Td>{email}</Td>
+      <Td>{nttId}</Td>
+      <Td>{nttSj}</Td>
+      <Td>{frstRegisterNm}</Td>
       <Td>
         <StyledAiFillDelete onClick={() => dispatch(showDialog())} />
       </Td>

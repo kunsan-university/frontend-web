@@ -12,7 +12,7 @@ const List = ({ list }) => {
   return (
     <Tbody>
       {list.map((item) => (
-        <Item key={item.id} val={item} />
+        <Item key={item.nttId} val={item} />
       ))}
     </Tbody>
   );
