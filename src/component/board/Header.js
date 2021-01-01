@@ -54,6 +54,10 @@ const Headers = ({ onChangeInput, onChangeCount }) => {
     }
   };
 
+  const handleShow = (e) => {
+    dispatch(showDialog2());
+  };
+
   return (
     <Template>
       <Search>
@@ -69,7 +73,7 @@ const Headers = ({ onChangeInput, onChangeCount }) => {
           Search
         </Button>
       </Search>
-      <Button onClick={() => dispatch(showDialog2())}>등록</Button>
+      <Button onClick={handleShow}>등록</Button>
     </Template>
   );
 };

@@ -31,7 +31,7 @@ const index = ({ onChangeInput, onChangeCount, boards, loadingBoards }) => {
 
   const handleOnConfirm = (e) => {
     dispatch(
-      updateBoard(board.nttId, {
+      updateBoard({
         ...board,
         title,
         subject,
