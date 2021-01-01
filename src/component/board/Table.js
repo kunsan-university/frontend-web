@@ -6,6 +6,9 @@ const Tbody = styled.tbody`
   & > tr:nth-child(even) {
     background-color: #f8f9fa;
   }
+  & > tr:hover {
+    background-color: #bcd277;
+  }
 `;
 
 const List = ({ list }) => {

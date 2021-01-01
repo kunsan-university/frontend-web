@@ -1,6 +1,7 @@
 import { createAction, handleActions } from 'redux-actions';
 import * as api from '../lib/api';
 
+const CHANGE_ID = 'board/CHANGE_ID';
 const CHANGE_SEARCH = 'board/CHANGE_SEARCH';
 const CHANGE_COUNT = 'board/CHANGE_COUNT';
 const CHANGE_TOTAL = 'board/CHANGE_TOTAL';
@@ -134,6 +135,7 @@ export const deleteBoard = (id) => async (dispatch) => {
 export const changeInput = createAction(CHANGE_SEARCH, (input) => input);
 export const changeCount = createAction(CHANGE_COUNT, (count) => count);
 export const changeOffset = createAction(CHANGE_OFFSET, (offset) => offset);
+export const changeId = createAction(CHANGE_ID, (id) => id);
 export const changeTotal = (total) => async (dispatch) => {
   try {
     if (typeof total === 'undefined')
@@ -158,10 +160,15 @@ const initialState = {
   count: '5',
   total: '',
   offset: '',
+  id: '',
 };
 
 const board = handleActions(
   {
+    [CHANGE_ID]: (state, { payload: id }) => ({
+      ...state,
+      id,
+    }),
     [CHANGE_SEARCH]: (state, { payload: search }) => ({
       ...state,
       search,
@@ -196,10 +203,10 @@ const board = handleActions(
       ...state,
       loading: { ...state.loading, READ_BOARD: true },
     }),
-    [READ_BOARD_SUCCESS]: (state, { payload: boards }) => ({
+    [READ_BOARD_SUCCESS]: (state, { payload: board }) => ({
       ...state,
       loading: { ...state.loading, READ_BOARD: false },
-      boards,
+      board,
     }),
     [READ_BOARD_FAILURE]: (state) => ({
       ...state,
