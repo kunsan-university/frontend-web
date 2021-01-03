@@ -8,10 +8,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import Dialog from '../lib/Dialog';
 import { hideDialog, hideDialog2 } from '../../modules/dialog';
 import {
+  insertBoard,
   updateBoard,
   readBoards,
   changeOffset,
   deleteBoard,
+  readBoard,
 } from '../../modules/board';
 
 const Template = styled.div``;
@@ -27,14 +29,50 @@ const index = ({ onChangeInput, onChangeCount, boards, loadingBoards }) => {
   const title = useSelector((state) => state.dialog.title);
   const subject = useSelector((state) => state.dialog.subject);
   const id = useSelector((state) => state.board.id);
+  const btn = useSelector((state) => state.board.btn);
   const dispatch = useDispatch();
 
   const handleOnConfirm = (e) => {
     dispatch(
       updateBoard({
         ...board,
-        title,
-        subject,
+        nttSj: title,
+        nttCn: subject,
+      }),
+    );
+    dispatch(
+      readBoards({
+        firstIndex: 0,
+      }),
+    );
+    dispatch(hideDialog2());
+  };
+  const handleOnConfirm2 = (e) => {
+    dispatch(
+      insertBoard({
+        atchFileId: '',
+        bbsId: 'BBSMSTR_AAAAAAAAAAAA',
+        frstRegisterId: 'USRCNFRM_00000000000',
+        frstRegisterPnttm: '',
+        lastUpdusrId: '',
+        lastUpdusrPnttm: '',
+        ntceBgnde: '10000101',
+        ntceEndde: '99991231',
+        ntcrId: '',
+        ntcrNm: '',
+        nttCn: subject,
+        nttId: 0,
+        nttNo: 0,
+        nttSj: title,
+        parnts: 0,
+        password: '',
+        inqireCo: 0,
+        replyAt: 'N',
+        replyLc: 0,
+        sortOrdr: 0,
+        useAt: '',
+        ntceEnddeView: '',
+        ntceBgndeView: '',
       }),
     );
     dispatch(
@@ -45,7 +83,7 @@ const index = ({ onChangeInput, onChangeCount, boards, loadingBoards }) => {
     dispatch(hideDialog2());
   };
   const handleOnDelete = (e) => {
-    dispatch(updateBoard(id));
+    dispatch(deleteBoard(board));
     dispatch(
       readBoards({
         firstIndex: 0,
@@ -75,15 +113,17 @@ const index = ({ onChangeInput, onChangeCount, boards, loadingBoards }) => {
       </Dialog>
       <Dialog
         title={
-          board ? `공지사항/${board.nttId}/${board.frstRegisterNm}` : '공지사항'
+          btn === '등록'
+            ? '공지사항'
+            : board && `공지사항/${board.nttId}/${board.frstRegisterNm}`
         }
-        confirmText={board ? '수정' : '등록'}
+        confirmText={btn === '등록' ? '등록' : '수정'}
         width={'400px'}
         visible={visible2}
         onCancel={() => dispatch(hideDialog2())}
-        onConfirm={handleOnConfirm}
+        onConfirm={btn === '등록' ? handleOnConfirm2 : handleOnConfirm}
       >
-        {!loadingBoard && board && <Form board={board} />}
+        <Form board={board} btn={btn} />
       </Dialog>
     </Template>
   );

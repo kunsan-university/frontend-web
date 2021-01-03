@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { AiFillDelete } from 'react-icons/ai';
 import { useDispatch } from 'react-redux';
 import { showDialog, showDialog2 } from '../../modules/dialog';
-import { readBoard, changeId } from '../../modules/board';
+import { readBoard, changeId, changeBtn } from '../../modules/board';
 
 const Tr = styled.tr`
   justify-content: space-between;
@@ -29,20 +29,23 @@ const item = ({ val }) => {
 
   const handleDoubleClick = (e) => {
     const id = e.target.parentNode.firstElementChild.innerText;
+    dispatch(changeBtn('수정'));
     dispatch(readBoard(id));
     dispatch(showDialog2());
   };
 
   const handleClick = (e) => {
+    e.stopPropagation();
     const id =
       e.target.parentElement.parentElement.parentElement.firstElementChild
         .innerText;
+    dispatch(readBoard(id));
     dispatch(changeId(id));
     dispatch(showDialog());
   };
 
   return (
-    <Tr onDoubleClick={handleDoubleClick}>
+    <Tr onClick={handleDoubleClick}>
       <Td>{nttId}</Td>
       <Td>{nttSj}</Td>
       <Td>{frstRegisterNm}</Td>

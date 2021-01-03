@@ -5,7 +5,7 @@ import Button from '../lib/Button';
 import Input from '../lib/Input';
 import { useDispatch, useSelector } from 'react-redux';
 import { showDialog2 } from '../../modules/dialog';
-import { changeOffset, readBoards } from '../../modules/board';
+import { changeOffset, readBoards, changeBtn } from '../../modules/board';
 
 const Template = styled.div`
   display: flex;
@@ -30,7 +30,7 @@ const Headers = ({ onChangeInput, onChangeCount }) => {
   const count = useSelector((state) => state.board.count);
   const search = useSelector((state) => state.board.search);
   const handleChange = (e) => {
-    dispatch(onChangeCount(e.target.value));
+    dispatch(onChangeCount(+e.target.value));
     dispatch(
       readBoards({
         firstIndex: 0,
@@ -55,6 +55,7 @@ const Headers = ({ onChangeInput, onChangeCount }) => {
   };
 
   const handleShow = (e) => {
+    dispatch(changeBtn('등록'));
     dispatch(showDialog2());
   };
 
@@ -68,6 +69,7 @@ const Headers = ({ onChangeInput, onChangeCount }) => {
         <Input
           onChange={(e) => onChangeInput(e.target.value)}
           onKeyPress={handleKeyPress}
+          placeholder="완전일치만 지원"
         />
         <Button color={'pink'} onClick={handleSearch}>
           Search

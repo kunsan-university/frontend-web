@@ -18,7 +18,7 @@ const Li = styled.li`
 
 const Footer = ({ count, total, offset }) => {
   const dispatch = useDispatch();
-  const pageCount = total / count + (total % count ? 1 : 0);
+  const pageCount = Math.floor(total / count) + (total % count ? 1 : 0);
   const countArr = Array(pageCount)
     .fill()
     .map((ele, idx) => idx + 1);
@@ -32,6 +32,9 @@ const Footer = ({ count, total, offset }) => {
     }
     dispatch(changeOffset(Number(setOffset)));
   };
+  const paging = (page) => {
+    dispatch(changeOffset((page - 1) * count));
+  };
   return (
     <Template>
       <ul>
@@ -44,7 +47,12 @@ const Footer = ({ count, total, offset }) => {
           const color = idx === offset / count ? 'pink' : 'blue';
           return (
             <Li key={idx}>
-              <Button color={color}>{ele}</Button>
+              <Button
+                color={color}
+                onClick={(e) => paging(+e.target.innerText)}
+              >
+                {ele}
+              </Button>
             </Li>
           );
         })}

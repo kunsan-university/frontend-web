@@ -1,6 +1,7 @@
 import { createAction, handleActions } from 'redux-actions';
 import * as api from '../lib/api';
 
+const CHANGE_BTN = 'board/CHANGE_BTN';
 const CHANGE_ID = 'board/CHANGE_ID';
 const CHANGE_SEARCH = 'board/CHANGE_SEARCH';
 const CHANGE_COUNT = 'board/CHANGE_COUNT';
@@ -49,7 +50,7 @@ export const readBoards = ({
     });
     dispatch({
       type: READ_BOARDS_SUCCESS,
-      payload: response.data,
+      payload: response.data.filter((ele) => ele.useAt === 'Y'),
     });
   } catch (e) {
     dispatch({
@@ -132,18 +133,19 @@ export const deleteBoard = (id) => async (dispatch) => {
   }
 };
 
+export const changeBtn = createAction(CHANGE_BTN, (btn) => btn);
 export const changeInput = createAction(CHANGE_SEARCH, (input) => input);
 export const changeCount = createAction(CHANGE_COUNT, (count) => count);
 export const changeOffset = createAction(CHANGE_OFFSET, (offset) => offset);
 export const changeId = createAction(CHANGE_ID, (id) => id);
 export const changeTotal = (total) => async (dispatch) => {
-  try {
-    if (typeof total === 'undefined')
-      total = (await api.readBoards({})).data.length;
-    dispatch({ type: CHANGE_TOTAL, payload: total });
-  } catch (e) {
-    throw e;
+  if (typeof total === 'undefined') {
+    const arr = (await api.readBoards({})).data.filter(
+      (ele) => ele.useAt === 'Y',
+    );
+    total = arr.length;
   }
+  dispatch({ type: CHANGE_TOTAL, payload: total });
 };
 
 const initialState = {
@@ -157,14 +159,19 @@ const initialState = {
   boards: null,
   board: null,
   search: '',
-  count: '5',
+  count: 5,
   total: '',
-  offset: '',
+  offset: 0,
   id: '',
+  btn: '',
 };
 
 const board = handleActions(
   {
+    [CHANGE_BTN]: (state, { payload: btn }) => ({
+      ...state,
+      btn,
+    }),
     [CHANGE_ID]: (state, { payload: id }) => ({
       ...state,
       id,
@@ -193,6 +200,7 @@ const board = handleActions(
       ...state,
       loading: { ...state.loading, READ_BOARDS: false },
       boards,
+      total: boards.length,
     }),
     [READ_BOARDS_FAILURE]: (state) => ({
       ...state,
@@ -217,10 +225,9 @@ const board = handleActions(
       ...state,
       loading: { ...state.loading, INSERT_BOARD: true },
     }),
-    [INSERT_BOARD_SUCCESS]: (state, { payload: boards }) => ({
+    [INSERT_BOARD_SUCCESS]: (state) => ({
       ...state,
       loading: { ...state.loading, INSERT_BOARD: false },
-      boards,
     }),
     [INSERT_BOARD_FAILURE]: (state) => ({
       ...state,
@@ -230,10 +237,9 @@ const board = handleActions(
       ...state,
       loading: { ...state.loading, UPDATE_BOARD: true },
     }),
-    [UPDATE_BOARD_SUCCESS]: (state, { payload: boards }) => ({
+    [UPDATE_BOARD_SUCCESS]: (state) => ({
       ...state,
       loading: { ...state.loading, UPDATE_BOARD: false },
-      boards,
     }),
     [UPDATE_BOARD_FAILURE]: (state) => ({
       ...state,
@@ -243,10 +249,9 @@ const board = handleActions(
       ...state,
       loading: { ...state.loading, DELETE_BOARD: true },
     }),
-    [DELETE_BOARD_SUCCESS]: (state, { payload: boards }) => ({
+    [DELETE_BOARD_SUCCESS]: (state) => ({
       ...state,
       loading: { ...state.loading, DELETE_BOARD: false },
-      boards,
     }),
     [DELETE_BOARD_FAILURE]: (state) => ({
       ...state,

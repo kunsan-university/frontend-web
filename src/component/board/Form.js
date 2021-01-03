@@ -40,12 +40,12 @@ const StyledTextarea = styled.textarea`
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 `;
 
-const Form = ({ board }) => {
+const Form = ({ board, btn }) => {
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(changeTitle(board.nttSj));
-    dispatch(changeSubject(board.nttCn));
-  }, []);
+    dispatch(changeTitle(btn === '수정' && board ? board.nttSj : ''));
+    dispatch(changeSubject(btn === '수정' && board ? board.nttCn : ''));
+  }, [board]);
   const title = useSelector((state) => state.dialog.title);
   const subject = useSelector((state) => state.dialog.subject);
   return (
